@@ -1,53 +1,34 @@
-const personService = require('../services/personServices')
+const connection = require('../utils/connection')
 const express = require('express')
 const router = express.Router()
-const Joi = require('joi');
+const {joiError} = require('../middlewares/error')
 
-router.get('/person', async (_req, res) => {
-    const people = await personService.getAll();
+const schemasJoi = require('./schemaPersonJoi');
+const personServices = require('../services/personServices')
 
-    if(!people){
-      res.status(400).json({ message: 'There are no People'});
-    }
-    res.status(200).json(people);
-});
-
-router.get('/person/:id', async (req, res) => {
-  const { id } = req.params
-  const { error } = Joi.object({
-    id: Joi.string().not().empty().required()
-  })
-  .validate({ id });
-
-  if (error) {
-      return next(error);
-  }
-
-  const people = await personService.findById(req.id)
-
-  if(!people){
-    res.status(400).json({ message: 'There are no People with this id'});
-  }
-
-  res.status(200).json(people);
-});
+const validateJoi = async (reqInfo) =>
+  schemasJoi.addPerson.validateAsync(reqInfo).catch((fail) => joiError(fail));
 
 router.post('/person', async (req, res, next) => {
-    const { first_name, last_name } = req.body;
+    const isValid = await validateJoi(req.body);
+    if (isValid.error) return next(isValid);
 
-    const { error } = Joi.object({
-        first_name: Joi.string().not().empty().required(),
-        last_name: Joi.string().not().empty().required(),
-      })
-      .validate({ first_name, last_name });
-    
-    if (error) {
-        return next(error);
-    }
+    const {first_name, last_name} = req.body
 
-    await personService.create(first_name, last_name);
+    await personServices.create(first_name, last_name)
+    res.status(201).json({ message: 'Person created with success'})
+})
 
-    res.status(201).json({ message: 'Person created with success'});
-});
+router.get('/person', async (_req, res) => {
+    const result = await personServices.getAll()
+    res.status(200).json({ result })
+})
+
+router.get('/person/:id',async (req, res) => {
+    const { id } = req.params
+    const result = await personServices.findById(id)
+    res.status(200).json(result)
+})
 
 module.exports = router
+  
