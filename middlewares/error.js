@@ -1,15 +1,22 @@
-module.exports = (err, req, res, _next) => {
-    if (err.isJoi) {
-      return res.status(400)
-        .json({ error: { message: err.details[0].message } });
-    }
-  
-    const statusByErrorCode = {
-      notFound: 404, 
-      alreadyExists: 409, 
-    };
+const objError = {
+  notFound: 404,
+  alreadyExists: 409,
+  invalidData: 422,
+  internalError: 500,
+};
 
-    const status = statusByErrorCode[err.code] || 500;
-  
-    res.status(status).json({ error: { message: err.message } });
-  };
+const otherError = async (err, _req, res, _next) => {
+  const { code = 'internalError' } = err;
+  const statusCode = objError[code];
+  const error = { message: err.message, code };
+  return res.status(statusCode).json(error);
+};
+
+const joiError = (err) => (
+  { error: true, message: err.details[0].message, code: 'invalidData' }
+);
+
+module.exports = {
+  otherError,
+  joiError,
+};
