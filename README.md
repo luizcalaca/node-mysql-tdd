@@ -8,9 +8,22 @@ Technologies tha was used
 - MySQL
 - Tests
 
+## MySQL
+
+```sh
+CREATE DATABASE `example`
+
+CREATE TABLE Persons (
+    id int NOT NULL,
+    first_name varchar(255) NOT NULL,
+    last_name varchar(255) NOT NULL,
+    CONSTRAINT PK_Person PRIMARY KEY (id)
+);
+```
+
 ## Installation
 
-Install the dependencies and devDependencies and start the server.
+After create table, Install the dependencies and devDependencies and start the server.
 
 ```sh
 npm install
@@ -21,3 +34,4 @@ For tests
 ```sh
 npm test
 ```
+
