@@ -1,6 +1,5 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const personModel = require('../models/Person')
 const connection = require('../utils/connection')
 
 const PersonModel = {
@@ -16,6 +15,7 @@ const PersonModel = {
     before(async () => {
         const execute = [{ insertId: 1 }]; // retorno esperado nesse teste
         sinon.stub(connection, 'execute').resolves(execute);
+        sinon.stub(PersonModel, 'create').resolves({ id: execute })
       });
 
     after(async () => {
@@ -24,12 +24,12 @@ const PersonModel = {
   
     describe('When is inserted with success', () => {
       it('return an object', async () => {
-        const response = await personModel.create(payloadPerson);
+        const response = await PersonModel.create(payloadPerson);
         expect(response).to.be.a('object')
       });
   
       it('The object has a id of inserted tuple', async () => {
-        const response = await personModel.create(payloadPerson);
+        const response = await PersonModel.create(payloadPerson);
         expect(response).to.have.a.property('id')
       });
   
