@@ -30,6 +30,14 @@ const findById = async (id) => {
    return { id: person.id };
  }
 
+ const deleteById = async (id) => {
+    const [person] = await connection.execute(
+      'DELETE FROM example.person WHERE id = ?',
+      [id]
+    );
+    return { id: person.id };
+  }
+
 const serialize = (person) => ({
     id: person.id,
     firstName: person.first_name,
@@ -37,5 +45,5 @@ const serialize = (person) => ({
 });
 
 module.exports = {
-    getAll, findById, create
+    getAll, findById, create, deleteById
 };

@@ -18,6 +18,16 @@ const findById = async (id) => {
  return person
 };
 
+const deleteById = async (id) => {
+  const person = await personModel.deleteById(id)
+
+  if(!person){
+    return { message: 'There are no Person with this id'};
+  }
+
+ return person
+};
+
 const getAll = async () =>{
   const result = await personModel.getAll();
 
@@ -29,5 +39,5 @@ const getAll = async () =>{
 } 
 
 module.exports = {
-  create, findById, getAll
+  create, findById, getAll, deleteById
 }
