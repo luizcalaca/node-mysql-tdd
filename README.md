@@ -1,22 +1,4 @@
 # NodeJS with Mysql and TESTS
-## _The Last Markdown Editor, Ever_
-
-## Documentation API with OpenAPI and Swagger
-
-To generate the docs
-```sh
-npm run swagger-autogen
-```
-
-```sh
-http://localhost:3000/doc
-```
-
-Technologies tha was used 
-
-- NodeJS
-- MySQL
-- Tests
 
 ## MySQL
 
@@ -44,4 +26,24 @@ For tests
 ```sh
 npm test
 ```
+
+## Documentation API with OpenAPI and Swagger
+
+To generate the docs
+```sh
+npm run swagger-autogen
+```
+
+To acess the docs
+```sh
+http://localhost:3000/doc
+```
+
+Technologies tha was used 
+
+- NodeJS
+- MySQL
+- Tests
+
+
 
