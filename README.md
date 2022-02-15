@@ -1,6 +1,11 @@
 # NodeJS with Mysql and TESTS
 ## _The Last Markdown Editor, Ever_
 
+## Documentation API with OpenAPI and Swagger
+
+```sh
+http://localhost:3000/doc
+```
 
 Technologies tha was used 
 
