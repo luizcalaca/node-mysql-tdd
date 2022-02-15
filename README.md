@@ -3,6 +3,11 @@
 
 ## Documentation API with OpenAPI and Swagger
 
+To generate the docs
+```sh
+npm run swagger-autogen
+```
+
 ```sh
 http://localhost:3000/doc
 ```
